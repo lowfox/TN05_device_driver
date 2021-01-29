@@ -1,0 +1,34 @@
+//*********************************************************
+// hal_apl NOTE										 Sumida
+//*********************************************************
+
+(1) 新規のModuleの追加
+	hal_apl Folderに、新規に hal.c 以外のSource_Module(~.c) を作成する場合は、
+	MakefileにそのObject名(~.o)を追加する。
+	(asp_1.9.2_utf8\target\nucleo_f401re_gcc\truestudio\asp\Makefile)
+	Header_Fileについては、Makefileに記述不要。
+
+    154行目：
+	#  -----------------------------------------------------------------------------
+	#  (角田) hal_apl フォルダに 追加のUser_Module(OBJ)があれば、ここに追記 
+	#         区切りはspace 又は \で次行に継続 (\の後にはCommentも書けないので注意)
+	APPL_COBJS := $(APPL_COBJS) hal_extention.o
+	#  -----------------------------------------------------------------------------
+
+	(例)hal_aplに、my_module01.c,及びmy_module02.c  を追加
+	#  ----------------------------------------------------
+	APPL_COBJS := $(APPL_COBJS) hal_extention.o  \
+                                my_module01.o    \
+								my_module02.o
+	#  ----------------------------------------------------
+
+
+(2) User_APLにおける#include の順序
+	APLでのHeader_File指定順序は、必ず次のようにする事。
+	#include  kernel_cfg.h       // Toppers Kernel Config Header
+	#include "hal.h"             // Toppers Header
+	#include "hal_extention.h"   // Toppers HAL_Extention Header
+	#include "各自のHeader.h"
+
+    * Header_Fileは、各自で作成し、決して その内容を hal.h や hal_extention.h 内に
+      入れない事。
